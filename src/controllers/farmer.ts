@@ -3,18 +3,22 @@ import { create } from "superstruct";
 import GetFarmerByID from "@/services/get-farmer-by-id";
 import CreateFarmer from "@/services/create-farmer";
 import farmerSchema from "@/validations/create-farmer-schema";
+import UpdateFarmer from "@/services/update-farmer";
+import ApiError from "@/config/errors/error";
 
 export default class FarmerController {
   static make() {
     const getFarmerByID = GetFarmerByID.make();
     const createFarmer = CreateFarmer.make();
+    const updateFarmer = UpdateFarmer.make();
 
-    return new FarmerController(getFarmerByID, createFarmer);
+    return new FarmerController(getFarmerByID, createFarmer, updateFarmer);
   }
 
   constructor(
     private readonly getFarmerByID: GetFarmerByID,
     private readonly createFarmer: CreateFarmer,
+    private readonly updateFarmer: UpdateFarmer,
   ) {}
 
   async get(_request: Request, response: Response) {
@@ -35,7 +39,15 @@ export default class FarmerController {
     response.status(201).json(result);
   }
 
-  async update(_request: Request, response: Response) {
-    response.json({ update: true });
+  async update(request: Request, response: Response) {
+    const farmerID = parseInt(request.params.farmer_id);
+
+    if (isNaN(farmerID)) {
+      throw new ApiError("resource id must be an valid integer", 400);
+    }
+
+    const farmerData = create(request.body, farmerSchema);
+    const result = await this.updateFarmer.execute(farmerID, farmerData);
+    response.json(result);
   }
 }
