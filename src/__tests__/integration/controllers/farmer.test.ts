@@ -5,12 +5,14 @@ import application from "@/application/app";
 import { Farmer } from "@/types/entities";
 import db from "@/config/database";
 
-jest.mock("@/config/database", () => knex({ client: MockClient }));
+jest.mock("@/config/database", () =>
+  knex({ client: MockClient, dialect: "pg" }),
+);
 
 const mockAgent = request.agent(application.app);
 
 describe("Farmer Controller", () => {
-  describe("given complete payload of farmer with relationships", () => {
+  describe("given complete payload of farmer with relationships while creating", () => {
     let farmer: Farmer;
     let tracker: Tracker;
 
@@ -34,9 +36,9 @@ describe("Farmer Controller", () => {
         ],
       };
 
-      tracker.on.insert("farmer").response([1]);
-      tracker.on.insert("farm").response([1]);
-      tracker.on.insert("farmings").response([1]);
+      tracker.on.insert("farmer").response([{ id: 1 }]);
+      tracker.on.insert("farm").response([{ id: 1 }]);
+      tracker.on.insert("farmings").response([{ id: 1 }]);
     });
 
     afterEach(() => {
@@ -50,9 +52,9 @@ describe("Farmer Controller", () => {
         .send(farmer);
 
       expect(response.body).toStrictEqual({
-        farmer: 1,
-        farm: 1,
-        farmings: [1],
+        farmer: { id: 1 },
+        farm: { id: 1 },
+        farmings: [{ id: 1 }],
       });
       expect(response.status).toBe(201);
     });
@@ -94,6 +96,73 @@ describe("Farmer Controller", () => {
       });
 
       expect(response.status).toBe(409);
+    });
+  });
+
+  // UPDATE
+
+  describe("given complete payload of farmer with relationships while updating", () => {
+    let farmer: Farmer;
+    let tracker: Tracker;
+
+    beforeEach(() => {
+      // @ts-ignore
+      tracker = createTracker(db);
+
+      farmer = {
+        name: "Vicente",
+        document: "66.395.412/0001-86",
+        farm_name: "Fazenda Talisma",
+        farm_total_area: 10,
+        farm_usable_area: 8,
+        city: "Goiania",
+        state: "Goias",
+        farmings: [
+          {
+            type: "Mandioca",
+            area: 8,
+          },
+        ],
+      };
+
+      tracker.on.update("farmers").response([{ id: 1 }]);
+      tracker.on.update("farms").response([{ id: 1 }]);
+      tracker.on.delete("farmings").response([]);
+      tracker.on.insert("farmings").response([{ id: 1 }]);
+    });
+
+    afterEach(() => {
+      tracker.reset();
+    });
+
+    it("should return 200 and the farmer must to be updated", async () => {
+      const response = await mockAgent
+        .put("/brain/v1/farmer/1")
+        .set("content-type", "application/json")
+        .send(farmer);
+
+      expect(response.body).toStrictEqual({
+        farmer: { id: 1 },
+        farm: { id: 1 },
+        farmings: [{ id: 1 }],
+      });
+      expect(response.status).toBe(200);
+    });
+
+    it("should return 400 when farmings areas greather than usable area", async () => {
+      farmer.farm_usable_area = 7;
+
+      const response = await mockAgent
+        .put("/brain/v1/farmer/1")
+        .set("content-type", "application/json")
+        .send(farmer);
+
+      expect(response.body).toStrictEqual({
+        error: "farming areas should be lower than farm usable area available",
+        status_code: 400,
+      });
+
+      expect(response.status).toBe(400);
     });
   });
 });
