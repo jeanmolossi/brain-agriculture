@@ -19,7 +19,6 @@ export default class FarmerController {
 
   async get(_request: Request, response: Response) {
     response.json({});
-    return;
   }
 
   async fetch(request: Request, response: Response) {
@@ -28,18 +27,15 @@ export default class FarmerController {
     const farmer = await this.getFarmerByID.execute(id);
 
     response.json(farmer);
-    return;
   }
 
   async store(request: Request, response: Response) {
     const farmerData = create(request.body, farmerSchema);
     const result = await this.createFarmer.execute(farmerData);
     response.json(result);
-    return;
   }
 
   async update(_request: Request, response: Response) {
     response.json({ update: true });
-    return;
   }
 }
