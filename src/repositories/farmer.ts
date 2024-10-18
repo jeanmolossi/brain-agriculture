@@ -131,6 +131,11 @@ export default class FarmerRepository {
     });
   }
 
+  async deleteFarmer(id: number) {
+    const rows = await this.db("farmers").where("id", id).delete("id");
+    return rows.length;
+  }
+
   async getFarmerByID(id: number) {
     const farmers = await pg.from("farmers").where("id", "=", id);
 

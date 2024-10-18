@@ -10,6 +10,7 @@ export default class FarmerRouter {
       .get("/", controller.get.bind(controller))
       .post("/", createFarmerValidation, controller.store.bind(controller))
       .get("/:farmer_id", controller.fetch.bind(controller))
-      .put("/:farmer_id", controller.update.bind(controller));
+      .put("/:farmer_id", controller.update.bind(controller))
+      .delete("/:farmer_id", controller.delete.bind(controller));
   }
 }

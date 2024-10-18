@@ -5,20 +5,28 @@ import CreateFarmer from "@/services/create-farmer";
 import farmerSchema from "@/validations/create-farmer-schema";
 import UpdateFarmer from "@/services/update-farmer";
 import ApiError from "@/config/errors/error";
+import DeleteFarmer from "@/services/delete-farmer";
 
 export default class FarmerController {
   static make() {
     const getFarmerByID = GetFarmerByID.make();
     const createFarmer = CreateFarmer.make();
     const updateFarmer = UpdateFarmer.make();
+    const deleteFarmer = DeleteFarmer.make();
 
-    return new FarmerController(getFarmerByID, createFarmer, updateFarmer);
+    return new FarmerController(
+      getFarmerByID,
+      createFarmer,
+      updateFarmer,
+      deleteFarmer,
+    );
   }
 
   constructor(
     private readonly getFarmerByID: GetFarmerByID,
     private readonly createFarmer: CreateFarmer,
     private readonly updateFarmer: UpdateFarmer,
+    private readonly deleteFarmer: DeleteFarmer,
   ) {}
 
   async get(_request: Request, response: Response) {
@@ -49,5 +57,16 @@ export default class FarmerController {
     const farmerData = create(request.body, farmerSchema);
     const result = await this.updateFarmer.execute(farmerID, farmerData);
     response.json(result);
+  }
+
+  async delete(request: Request, response: Response) {
+    const farmerID = parseInt(request.params.farmer_id);
+
+    if (isNaN(farmerID)) {
+      throw new ApiError("resource id must be an valid integer", 400);
+    }
+
+    await this.deleteFarmer.execute(farmerID);
+    response.status(204).send();
   }
 }
