@@ -165,4 +165,46 @@ describe("Farmer Controller", () => {
       expect(response.status).toBe(400);
     });
   });
+
+  // DELETE
+
+  describe("given farmer id", () => {
+    let tracker: Tracker;
+
+    beforeEach(() => {
+      // @ts-ignore
+      tracker = createTracker(db);
+    });
+
+    afterEach(() => {
+      tracker.reset();
+    });
+
+    it("should return 204 when the farmer was deleted", async () => {
+      tracker.on.delete("farmers").response([1]);
+
+      const response = await mockAgent
+        .delete("/brain/v1/farmer/1")
+        .set("content-type", "application/json")
+        .send();
+
+      expect(response.status).toBe(204);
+    });
+
+    it("should return 404 when farmer does not exists", async () => {
+      tracker.on.delete("farmers").response([]);
+
+      const response = await mockAgent
+        .delete("/brain/v1/farmer/1")
+        .set("content-type", "application/json")
+        .send();
+
+      expect(response.body).toStrictEqual({
+        error: "farmer was not found",
+        status_code: 404,
+      });
+
+      expect(response.status).toBe(404);
+    });
+  });
 });
