@@ -1,16 +1,17 @@
 import pg from "@/config/database";
 import ApiError from "@/config/errors/error";
 import { Farmer } from "@/types/entities";
+import { Knex } from "knex";
 
 export default class FarmerRepository {
   static make() {
-    return new FarmerRepository();
+    return new FarmerRepository(pg);
   }
 
-  private constructor() {}
+  private constructor(private db: Knex) {}
 
   async createFarmer(farmer: Farmer) {
-    return pg.transaction(async (trx) => {
+    return this.db.transaction(async (trx) => {
       const _farmer = await trx
         .insert(
           {
@@ -54,7 +55,11 @@ export default class FarmerRepository {
         .into("farmings")
         .catch(trx.rollback);
 
-      await trx.commit([_farmer, farms, farmings]);
+      await trx.commit({
+        farmer: _farmer,
+        farm: farms,
+        farmings,
+      });
 
       return {
         ..._farmer,
