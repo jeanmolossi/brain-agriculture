@@ -18,7 +18,7 @@ export default class CreateFarmer {
       if (!this.#isAllowedAreas(farmer.farm_usable_area, farmer.farmings)) {
         throw new ApiError(
           "farming areas should be lower than farm usable area available",
-          403,
+          400,
         );
       }
 
