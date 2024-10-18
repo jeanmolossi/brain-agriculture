@@ -32,7 +32,7 @@ export default class FarmerController {
   async store(request: Request, response: Response) {
     const farmerData = create(request.body, farmerSchema);
     const result = await this.createFarmer.execute(farmerData);
-    response.json(result);
+    response.status(201).json(result);
   }
 
   async update(_request: Request, response: Response) {
