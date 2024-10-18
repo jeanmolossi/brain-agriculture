@@ -30,7 +30,7 @@ CREATE UNLOGGED TABLE IF NOT EXISTS farms (
   updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
   CONSTRAINT fk_farmers_farms_id
-    FOREIGN KEY (farmer_id) REFERENCES farmers(id),
+    FOREIGN KEY (farmer_id) REFERENCES farmers(id) ON DELETE CASCADE,
 
   CONSTRAINT chk_usable_area CHECK (
     usable_inuse_area <= max_usable_area
@@ -65,7 +65,7 @@ CREATE UNLOGGED TABLE IF NOT EXISTS farmings (
   updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
   CONSTRAINT fk_farms_farmings_id
-    FOREIGN KEY (farm_id) REFERENCES farms(id)
+    FOREIGN KEY (farm_id) REFERENCES farms(id) ON DELETE CASCADE
 );
 
 
