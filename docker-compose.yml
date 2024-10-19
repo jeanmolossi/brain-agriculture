@@ -10,6 +10,12 @@ services:
       - /usr/src/app/node_modules
     networks:
       - brain_network
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512MB"
+
   db:
     image: postgres:latest
     container_name: db
