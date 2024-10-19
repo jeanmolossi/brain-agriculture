@@ -14,17 +14,18 @@ Culturas plantadas (Soja, Milho, Algodão, Café, Cana de Açucar)
 
 # Requisitos de negócio
 
-[x] - O usuário deverá ter a possibilidade de cadastrar, editar, e excluir produtores rurais.
-[x] - O sistema deverá validar CPF e CNPJ digitados incorretamente.
-[x] - A soma de área agrícultável e vegetação, não deverá ser maior que a área total da fazenda
-[x] - Cada produtor pode plantar mais de uma cultura em sua Fazenda.
+- [x] O usuário deverá ter a possibilidade de cadastrar, editar, e excluir produtores rurais.
+- [x] O sistema deverá validar CPF e CNPJ digitados incorretamente.
+- [x] A soma de área agrícultável e vegetação, não deverá ser maior que a área total da fazenda
+- [x] Cada produtor pode plantar mais de uma cultura em sua Fazenda.
 
 A plataforma deverá ter um Dashboard que exiba:
-[ ] - Total de fazendas em quantidade
-[ ] - Total de fazendas em hectares (área total)
-[ ] - Gráfico de pizza por estado.
-[ ] - Gráfico de pizza por cultura.
-[ ] - Gráfico de pizza por uso de solo (Área agricultável e vegetação)
+
+- [x] Total de fazendas em quantidade
+- [x] Total de fazendas em hectares (área total)
+- [x] Gráfico de pizza por estado.
+- [x] Gráfico de pizza por cultura.
+- [x] Gráfico de pizza por uso de solo (Área agricultável e vegetação)
 
 # Requisitos técnicos
 
