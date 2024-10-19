@@ -1,7 +1,7 @@
 import "express-async-errors";
 import express, { Application, Router } from "express";
 import errorHandler from "@/config/middlewares/error";
-import FarmerRouter from "@/router";
+import { FarmerRouter, DashboardRouter } from "@/router";
 
 class App {
   public readonly app: Application;
@@ -23,6 +23,9 @@ class App {
 
     const farmer = FarmerRouter.make();
     router.use("/farmer", farmer);
+
+    const dashboard = DashboardRouter.make();
+    router.use("/dashboard", dashboard);
 
     this.app.use(version.use("/brain/v1", router));
   }
