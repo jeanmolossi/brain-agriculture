@@ -68,7 +68,7 @@ describe("Dashboard Controller", () => {
         ]);
 
       tracker.on
-        .select(`select "state", count("1") from "farms" group by "state"`)
+        .select(`select "state", count("state") from "farms" group by "state"`)
         .response([
           {
             state: "Goias",
