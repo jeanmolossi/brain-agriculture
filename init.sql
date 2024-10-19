@@ -79,21 +79,39 @@ BEGIN
     ('John Doe', '34807856000195', 'CNPJ'),
     ('Professor', '89197229199', 'CPF'),
     ('Estagiario', '29022693155', 'CPF'),
-    ('Carroça empinada', '89349386000155', 'CNPJ');
+    ('Carroça empinada', '89349386000155', 'CNPJ'),
+    ('Maria Silva', '12345678900', 'CPF'),
+    ('Agro Brasil', '98765432000145', 'CNPJ'),
+    ('Jose da Silva', '33322211144', 'CPF'),
+    ('Fazendas Unidas', '22987654000188', 'CNPJ'),
+    ('Ana Pereira', '11223344556', 'CPF');
 
   INSERT INTO farms (farmer_id, name, city, state, total_area, max_usable_area, usable_inuse_area)
   VALUES
     (1, 'Fazenda Talismã do Vicente', 'Goiania', 'Goias', 10, 9, 5),
     (2, 'Fazenda do John', 'Goiania', 'Goias', 3, 3, 0),
     (3, 'Teachers Farm', 'Salvador', 'Bahia', 3, 3, 0),
-    (4, 'Fazenda do aprendizado', 'Porto Alergre', 'Rio Grande do Sul', 25, 22, 0),
-    (5, 'Fazenda da muié', 'Porto Alergre', 'Rio Grande do Sul', 15, 12, 10);
+    (4, 'Fazenda do Aprendizado', 'Porto Alegre', 'Rio Grande do Sul', 25, 22, 0),
+    (5, 'Fazenda da Muié', 'Porto Alegre', 'Rio Grande do Sul', 15, 12, 10),
+    (6, 'Sítio da Maria', 'Uberaba', 'Minas Gerais', 5, 4, 2),
+    (7, 'Fazenda Agro Brasil', 'Campinas', 'São Paulo', 50, 45, 40),
+    (8, 'Sítio do Jose', 'Curitiba', 'Paraná', 20, 18, 15),
+    (9, 'Fazendas Unidas', 'Ribeirão Preto', 'São Paulo', 100, 90, 85),
+    (10, 'Fazenda Ana Pereira', 'Juiz de Fora', 'Minas Gerais', 30, 28, 20);
 
   INSERT INTO farmings (farm_id, farming_type, area)
   VALUES
     (1, 'Mandioca', 5),
     (5, 'Tomate', 5),
-    (5, 'Café', 5);
+    (5, 'Café', 5),
+    (6, 'Milho', 2),
+    (7, 'Soja', 40),
+    (8, 'Trigo', 15),
+    (9, 'Cana-de-açúcar', 50),
+    (9, 'Milho', 20),
+    (9, 'Soja', 15),
+    (10, 'Café', 20);
 
 END;
 $$;
+
