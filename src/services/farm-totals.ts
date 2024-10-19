@@ -10,8 +10,13 @@ export default class FarmTotals {
   constructor(private readonly repository: FarmRepository) {}
 
   async execute() {
-    const totalPromise = this.repository.countFarm();
-    const totalAreaPromise = this.repository.sumFarmAreaTotal();
+    const totalPromise = this.repository
+      .countFarm()
+      .catch(() => "unable to retrieve total of farms");
+
+    const totalAreaPromise = this.repository
+      .sumFarmAreaTotal()
+      .catch(() => "unable to retrieve total area");
 
     return {
       total: await totalPromise,

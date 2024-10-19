@@ -21,7 +21,7 @@ export default class FarmRepository {
   async filterByState() {
     const states = await this.db("farms")
       .select("state")
-      .count("*")
+      .count("1")
       .groupBy("state");
 
     return states;

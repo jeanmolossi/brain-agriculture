@@ -9,9 +9,13 @@ export default class GraphByState {
   constructor(private readonly repository: FarmRepository) {}
 
   async execute() {
-    const byStatePromise = await this.repository
-      .filterByState()
-      .catch(() => []);
+    const byStatePromise = await this.repository.filterByState().catch(() => ({
+      error: "unable to retrieve totals by state",
+    }));
+
+    if ("error" in byStatePromise) {
+      return byStatePromise.error;
+    }
 
     const states = byStatePromise.reduce(
       (acc, state) => {

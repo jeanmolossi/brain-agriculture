@@ -10,7 +10,13 @@ export default class GraphByGround {
   constructor(private readonly repository: FarmRepository) {}
 
   async execute() {
-    const totals = await this.repository.filterByGround();
+    const totals = await this.repository.filterByGround().catch(() => ({
+      error: "unable to retrieve totals by ground",
+    }));
+
+    if ("error" in totals) {
+      return totals.error;
+    }
 
     const maxFarmingArea = parseInt(`${totals?.usable_area || 0}`);
     const allArea = parseInt(`${totals?.total_area || 0}`);

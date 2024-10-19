@@ -10,7 +10,13 @@ export default class GraphByFarming {
   constructor(private readonly repository: FarmingRepository) {}
 
   async execute() {
-    const farmings = await this.repository.filterByFarmings();
+    const farmings = await this.repository.filterByFarmings().catch(() => ({
+      error: "unable to retrieve totals by farmings",
+    }));
+
+    if ("error" in farmings) {
+      return farmings.error;
+    }
 
     const byFarmings = farmings.reduce(
       (acc, farming) => {
